@@ -19,6 +19,10 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+
+            if ( (event.type == sf::Event::KeyPressed || event.type == sf::Event::MouseButtonPressed) && gameManager.getGameState() == GAMESTATE::loss) {
+                gameManager.Reset();
+            }
         }
 
         deltaTime = clock.restart().asSeconds();

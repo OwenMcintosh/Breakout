@@ -8,10 +8,18 @@
 #include "MessagingSystem.h"
 #include "UI.h"
 
+enum GAMESTATE {
 
+    play = 0,
+    win = 1,
+    loss = 2
+
+};
 
 class GameManager {
 public:
+    
+
     GameManager(sf::RenderWindow* window);
     void initialize();
     void Reset();
@@ -26,9 +34,12 @@ public:
     PowerupManager* getPowerupManager() const;
     sf::RenderWindow* getWindow() const;
     UI* getUI() const;
+    GAMESTATE getGameState() const;
 
 
 private:
+
+    GAMESTATE _gameState;
     bool _pause;
     float _pauseHold;
     float _time;

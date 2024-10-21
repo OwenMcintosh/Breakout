@@ -6,7 +6,7 @@
 GameManager::GameManager(sf::RenderWindow* window)
     : _window(window), _paddle(nullptr), _ball(nullptr), _brickManager(nullptr), _powerupManager(nullptr),
     _messagingSystem(nullptr), _ui(nullptr), _pause(false), _time(0.f), _lives(3), _pauseHold(0.f), _levelComplete(false),
-    _powerupInEffect({ none,0.f }), _timeLastPowerupSpawned(0.f)
+    _powerupInEffect({ none,0.f }), _timeLastPowerupSpawned(0.f), _gameState(GAMESTATE::play)
 {
     _font.loadFromFile("font/montS.ttf");
     _masterText.setFont(_font);
@@ -40,6 +40,7 @@ void GameManager::Reset() {
     _powerupInEffect = { none,0.f };
     _timeLastPowerupSpawned = 0.f;
     _masterText.setString("");
+    _gameState = GAMESTATE::play;
 
     delete _paddle;
     delete _brickManager;
@@ -59,11 +60,8 @@ void GameManager::update(float dt)
     
     if (_lives <= 0)
     {
-        _masterText.setString("Game over.\nPress the 'R' Button To Restart.");
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
-            Reset();
-        }
+        _masterText.setString("Game over.\nPress Any Key To Restart.");
+        _gameState = GAMESTATE::loss;
         return;
     }
     if (_levelComplete)
@@ -142,3 +140,4 @@ UI* GameManager::getUI() const { return _ui; }
 Paddle* GameManager::getPaddle() const { return _paddle; }
 BrickManager* GameManager::getBrickManager() const { return _brickManager; }
 PowerupManager* GameManager::getPowerupManager() const { return _powerupManager; }
+GAMESTATE GameManager::getGameState() const { return _gameState; }
