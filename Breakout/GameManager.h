@@ -8,7 +8,7 @@
 #include "MessagingSystem.h"
 #include "UI.h"
 
-enum GAMESTATE {
+enum class GAMESTATE {
 
     play = 0,
     win = 1,
