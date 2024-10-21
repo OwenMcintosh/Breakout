@@ -26,6 +26,9 @@ void GameManager::initialize()
 
     // Create bricks
     _brickManager->createBricks(5, 10, 80.0f, 30.0f, 5.0f);
+    
+    // rng random seed
+    srand(time(0));
 }
 
 void GameManager::update(float dt)
@@ -78,8 +81,8 @@ void GameManager::update(float dt)
     }
 
     // move paddle
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) _paddle->moveRight(dt);
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) _paddle->moveLeft(dt);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Mouse::isButtonPressed(sf::Mouse::Right)) _paddle->moveRight(dt);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Mouse::isButtonPressed(sf::Mouse::Left)) _paddle->moveLeft(dt);
 
     // update everything 
     _paddle->update(dt);
