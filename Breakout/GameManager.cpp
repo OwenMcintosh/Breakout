@@ -31,16 +31,39 @@ void GameManager::initialize()
     srand(time(0));
 }
 
+void GameManager::Reset() {
+
+    _time = 0.f;
+    _lives = 3;
+    _pauseHold = 0.f;
+    _levelComplete = false;
+    _powerupInEffect = { none,0.f };
+    _timeLastPowerupSpawned = 0.f;
+    _masterText.setString("");
+
+    delete _paddle;
+    delete _brickManager;
+    delete _messagingSystem;
+    delete _ball;
+    delete _powerupManager;
+    delete _ui;
+
+    initialize();
+}
+
 void GameManager::update(float dt)
 {
     _powerupInEffect = _powerupManager->getPowerupInEffect();
     _ui->updatePowerupText(_powerupInEffect);
     _powerupInEffect.second -= dt;
     
-
     if (_lives <= 0)
     {
-        _masterText.setString("Game over.");
+        _masterText.setString("Game over.\nPress the 'R' Button To Restart.");
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
+            Reset();
+        }
         return;
     }
     if (_levelComplete)
@@ -94,7 +117,8 @@ void GameManager::loseLife()
 {
     _lives--;
     _ui->lifeLost(_lives);
-
+    
+    //_ui->screenShake(_window->getView())
     // TODO screen shake.
 }
 

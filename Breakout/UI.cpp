@@ -22,6 +22,9 @@ UI::UI(sf::RenderWindow* window, int lives, GameManager* gameManager)
 	_powerupText.setFillColor(sf::Color::Cyan);
 	_font.loadFromFile("font/montS.ttf");
 	_powerupText.setFont(_font);
+
+	_powerupBar.setPosition(900, 10);
+	_powerupBar.setFillColor(sf::Color(1, 0, 0));
 }
 
 UI::~UI()
@@ -39,6 +42,8 @@ void UI::updatePowerupText(std::pair<POWERUPS, float> powerup)
 		oss << std::fixed << std::setprecision(2) << powerup.second;
 		_powerupText.setString("big " + oss.str());
 		_powerupText.setFillColor(paddleEffectsColour);
+
+
 		break;
 	case smallPaddle:
 		oss << std::fixed << std::setprecision(2) << powerup.second;
@@ -70,6 +75,12 @@ void UI::updatePowerupText(std::pair<POWERUPS, float> powerup)
 void UI::lifeLost(int lives)
 {
 	_lives[_lives.size() - 1 - lives].setFillColor(sf::Color::Transparent);
+}
+
+void UI::screenShake(sf::View& initialView)
+{
+	sf::View shakeView = initialView;
+	
 }
 
 void UI::render()

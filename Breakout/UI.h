@@ -15,6 +15,7 @@ public:
 
 	void updatePowerupText(std::pair<POWERUPS, float>);
 	void lifeLost(int lives);
+	void screenShake(sf::View& initialView);
 	void render();
 
 private:
@@ -23,6 +24,7 @@ private:
 	sf::RenderWindow* _window;
 	sf::Font _font;
 	sf::Text _powerupText;
+	sf::RectangleShape _powerupBar;
 
 	std::vector<sf::CircleShape> _lives;
 
