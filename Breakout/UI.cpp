@@ -73,7 +73,7 @@ void UI::updatePowerupText(std::pair<POWERUPS, float> powerup)
 		_powerupText.setFillColor(extraBallEffectsColour);
 		HandleBarScale(powerup.second, extraBallEffectsColour);
 		break;
-	case ballSize:
+	case smallBall:
 		oss << std::fixed << std::setprecision(2) << powerup.second;
 		_powerupText.setString("scale");
 		_powerupText.setFillColor(smallBallEffectsColour);
