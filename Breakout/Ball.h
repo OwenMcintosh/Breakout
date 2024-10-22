@@ -15,6 +15,8 @@ public:
     void setVelocity(float coeff, float duration);
     void setFireBall(float duration);
 
+    void setSizeChange(float duration, sf::Vector2f newScale);
+
 private:
     sf::CircleShape _sprite;
     sf::Vector2f _direction;

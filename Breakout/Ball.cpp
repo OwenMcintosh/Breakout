@@ -25,11 +25,14 @@ void Ball::update(float dt)
     {
         if (_velocity != VELOCITY)
             _velocity = VELOCITY;   // reset speed.
-        else
+        else if(_isFireBall)
         {
             setFireBall(0);    // disable fireball
             _sprite.setFillColor(sf::Color::Cyan);  // back to normal colour.
-        }        
+        }
+        else if(_sprite.getScale() != sf::Vector2f(1,1)) {
+            _sprite.setScale(sf::Vector2f(1, 1));
+        }
     }
 
     // Fireball effect
@@ -113,4 +116,17 @@ void Ball::setFireBall(float duration)
     }
     _isFireBall = false;
     _timeWithPowerupEffect = 0.f;    
+}
+
+void Ball::setSizeChange(float duration, sf::Vector2f newScale) {
+
+    if (duration) 
+    {
+        _timeWithPowerupEffect = duration;
+        _sprite.setScale(newScale);
+        return;
+    }
+
+    _timeWithPowerupEffect = 0.f;
+    _sprite.setScale(sf::Vector2f(1, 1));
 }
