@@ -8,7 +8,7 @@ enum POWERUPS
     fastBall,
     slowBall,
     fireBall,
-    ballSize,
+    smallBall,
     none
 };
 
