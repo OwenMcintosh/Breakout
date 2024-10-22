@@ -32,4 +32,11 @@ fire ball (green)
 * Implement commentary with calls to an LLM such as LLama
 
 # Time Details and Changelist
-<Add information to this section about the time you've taken for this task along with a professional changelist.>
+20 minutes to familiarise with pre-existing codebase
+10 minutes to fix circular dependency issue
+20 minutes to add mouse movement to paddle
+1 hour to add restart via any key/mouse press after loss via gamestate data distinctions
+40 minutes to change ball effect display from text to bar
+15 minutes to create new "smallBall" powerup effect
+2 hours to create audio manager system and find suitable assets
+10 minutes to create screen shake functionality upon life-loss

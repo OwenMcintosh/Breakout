@@ -30,12 +30,25 @@ UI::UI(sf::RenderWindow* window, int lives, GameManager* gameManager)
 	_powerupBar.setPosition(875, 20);
 	_powerupBar.setSize(sf::Vector2f(DEFAULT_BAR_X, DEFAULT_BAR_Y));
 	_powerupBar.setFillColor(sf::Color(0, 0, 0, 0));
+
+	_screenIsShaking = false;
+	_screenShakeTimer = SCREEN_SHAKE_DURATION;
 }
 
 UI::~UI()
 {
 }
 
+void UI::update(float dt, std::pair<POWERUPS, float> powerup)
+{
+
+	updatePowerupText(powerup);
+
+	if (_screenIsShaking) {
+		screenShake(dt);
+	}
+
+}
 
 void UI::updatePowerupText(std::pair<POWERUPS, float> powerup)
 {
@@ -92,6 +105,7 @@ void UI::updatePowerupText(std::pair<POWERUPS, float> powerup)
 void UI::lifeLost(int lives)
 {
 	_lives[_lives.size() - 1 - lives].setFillColor(sf::Color::Transparent);
+	_screenIsShaking = true;
 }
 
 void UI::HandleBarScale(float powerupTimeRemaining, sf::Color powerupColour) {
@@ -99,10 +113,35 @@ void UI::HandleBarScale(float powerupTimeRemaining, sf::Color powerupColour) {
 	_powerupBar.setFillColor(powerupColour);
 }
 
-void UI::screenShake(sf::View& initialView)
+void UI::screenShake(float dt)
 {
-	sf::View shakeView = initialView;
-	
+	sf::View shakeView = _window->getView();
+
+	if (_screenShakeTimer > 0.f) {
+
+		float offsetX = (std::rand() % SCREEN_SHAKE_OFFSET_X_MAX - SCREEN_SHAKE_OFFSET_X_MIN) / (float)SCREEN_SHAKE_OFFSET_X_MIN * SCREEN_SHAKE_INTENSITY;
+		float offsetY = (std::rand() % SCREEN_SHAKE_OFFSET_Y_MAX - SCREEN_SHAKE_OFFSET_Y_MIN) / (float)SCREEN_SHAKE_OFFSET_Y_MIN * SCREEN_SHAKE_INTENSITY;
+
+		// apply offset to the default view of the window
+		shakeView.setCenter(_window->getDefaultView().getCenter().x + offsetX, _window->getDefaultView().getCenter().y + offsetY);
+
+		// set view to offset
+		_window->setView(shakeView);
+
+		// reduce remaining duration
+		_screenShakeTimer -= dt;
+		return;
+	}
+
+	// screen is still said to be shaking, but no more remaining duration
+	if (_screenIsShaking) {
+
+		// reset
+		_window->setView(_window->getDefaultView());
+		_screenIsShaking = false;
+		_screenShakeTimer = SCREEN_SHAKE_DURATION;
+	}
+
 }
 
 void UI::render()

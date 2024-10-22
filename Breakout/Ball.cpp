@@ -54,12 +54,14 @@ void Ball::update(float dt)
     if ((position.x >= windowDimensions.x - 2 * RADIUS && _direction.x > 0) || (position.x <= 0 && _direction.x < 0))
     {
         _direction.x *= -1;
+        _gameManager->getAudioManager()->playSoundByName("hit");
     }
 
     // bounce on ceiling
     if (position.y <= 0 && _direction.y < 0)
     {
         _direction.y *= -1;
+        _gameManager->getAudioManager()->playSoundByName("hit");
     }
 
     // lose life bounce
@@ -80,17 +82,31 @@ void Ball::update(float dt)
 
         // Adjust position to avoid getting stuck inside the paddle
         _sprite.setPosition(_sprite.getPosition().x, _gameManager->getPaddle()->getBounds().top - 2 * RADIUS);
+
+        _gameManager->getAudioManager()->playSoundByName("hit");
     }
 
     // collision with bricks
     int collisionResponse = _gameManager->getBrickManager()->checkCollision(_sprite, _direction);
-    if (_isFireBall) return; // no collisisons when in fireBall mode.
+    if (_isFireBall) 
+    {
+        
+        // play flame sound when in fireball state and 'collide' with brick
+        if (collisionResponse != 0) 
+        {
+            _gameManager->getAudioManager()->playSoundByName("fireHit");
+        }
+
+        return; // no collisisons when in fireBall mode.
+    }
     if (collisionResponse == 1)
     {
+        _gameManager->getAudioManager()->playSoundByName("hit");
         _direction.x *= -1; // Bounce horizontally
     }
     else if (collisionResponse == 2)
     {
+        _gameManager->getAudioManager()->playSoundByName("hit");
         _direction.y *= -1; // Bounce vertically
     }
 }

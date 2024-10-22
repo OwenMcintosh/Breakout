@@ -7,6 +7,7 @@
 #include "PowerupManager.h"
 #include "MessagingSystem.h"
 #include "UI.h"
+#include "AudioManager.h"
 
 enum class GAMESTATE {
 
@@ -32,6 +33,7 @@ public:
     Paddle* getPaddle() const;
     BrickManager* getBrickManager() const;
     PowerupManager* getPowerupManager() const;
+    AudioManager* getAudioManager() const;
     sf::RenderWindow* getWindow() const;
     UI* getUI() const;
     GAMESTATE getGameState() const;
@@ -56,6 +58,7 @@ private:
     Ball* _ball;
     BrickManager* _brickManager;
     PowerupManager* _powerupManager;
+    AudioManager* _audioManager;
     MessagingSystem* _messagingSystem;
     UI* _ui;
 

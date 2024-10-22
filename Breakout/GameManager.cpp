@@ -21,12 +21,16 @@ void GameManager::initialize()
     _brickManager = new BrickManager(_window, this);
     _messagingSystem = new MessagingSystem(_window);
     _ball = new Ball(_window, 400.0f, this); 
-    _powerupManager = new PowerupManager(_window, _paddle, _ball);
+    _audioManager = new AudioManager();
+    _powerupManager = new PowerupManager(_window, _paddle, _ball, _audioManager);
     _ui = new UI(_window, _lives, this);
 
     // Create bricks
     _brickManager->createBricks(5, 10, 80.0f, 30.0f, 5.0f);
     
+    // play music audio
+    _audioManager->playMusicByName("music");
+
     // rng random seed
     srand(time(0));
 }
@@ -47,6 +51,7 @@ void GameManager::Reset() {
     delete _messagingSystem;
     delete _ball;
     delete _powerupManager;
+    delete _audioManager;
     delete _ui;
 
     initialize();
@@ -55,7 +60,7 @@ void GameManager::Reset() {
 void GameManager::update(float dt)
 {
     _powerupInEffect = _powerupManager->getPowerupInEffect();
-    _ui->updatePowerupText(_powerupInEffect);
+    _ui->update(dt, _powerupInEffect);
     _powerupInEffect.second -= dt;
     
     if (_lives <= 0)
@@ -64,9 +69,13 @@ void GameManager::update(float dt)
         _gameState = GAMESTATE::loss;
         return;
     }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) _levelComplete = true;
+
     if (_levelComplete)
     {
         _masterText.setString("Level completed.");
+        _audioManager->FadeMusicOut(dt);
         return;
     }
     // pause and pause handling
@@ -115,8 +124,6 @@ void GameManager::loseLife()
 {
     _lives--;
     _ui->lifeLost(_lives);
-    
-    //_ui->screenShake(_window->getView())
     // TODO screen shake.
 }
 
@@ -140,4 +147,5 @@ UI* GameManager::getUI() const { return _ui; }
 Paddle* GameManager::getPaddle() const { return _paddle; }
 BrickManager* GameManager::getBrickManager() const { return _brickManager; }
 PowerupManager* GameManager::getPowerupManager() const { return _powerupManager; }
+AudioManager* GameManager::getAudioManager() const { return _audioManager; }
 GAMESTATE GameManager::getGameState() const { return _gameState; }

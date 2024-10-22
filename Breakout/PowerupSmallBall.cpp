@@ -14,5 +14,5 @@ std::pair<POWERUPS, float> PowerupSmallBall::applyEffect()
 {
 	float timeLength = 5.f;
 	_ball->setSizeChange(timeLength, sf::Vector2f(0.5, 0.5));
-	return { ballSize, timeLength };
+	return { smallBall, timeLength };
 }

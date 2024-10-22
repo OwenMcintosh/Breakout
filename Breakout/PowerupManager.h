@@ -12,12 +12,13 @@
 #include "PowerupSmallBall.h"
 #include "Paddle.h"
 #include "Ball.h"
+#include "AudioManager.h"
 
 
 class PowerupManager
 {
 public:
-    PowerupManager(sf::RenderWindow* window, Paddle* paddle, Ball* ball);
+    PowerupManager(sf::RenderWindow* window, Paddle* paddle, Ball* ball, AudioManager* audioManager);
     ~PowerupManager();
 
     void update(float dt);
@@ -33,4 +34,6 @@ private:
     Ball* _ball;
     std::vector<PowerupBase*> _powerups;            // used to manage deletion.
     std::optional<std::pair<POWERUPS, float>> _powerupInEffect;    // used for gameManager to get reference.
+
+    AudioManager* _audioManager;
 };
